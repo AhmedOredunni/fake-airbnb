@@ -17,3 +17,14 @@ else:
     # and it will be updated every time you change your object
     self.created_at = datetime.datetime.now()
     self.updated_at = datetime.datetime.now()
+
+
+
+try:
+    with open(self.__file_path, 'r') as file:
+        obj_dict = json.load(file)
+        # Assuming objects are created using the from_dict method
+        self.__objects = {key: BaseModel.from_dict(value) for key, value in obj_dict.items()}
+except FileNotFoundError:
+    # Do nothing if the file doesn't exist
+    pass

@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import uuid
 from datetime import datetime
+import models
 
 class BaseModel():
     """ A class BaseModel which other classes will inherit from
@@ -27,10 +28,16 @@ class BaseModel():
             # and it will be updated every time you change your object
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
+            # Call the new method on storage for a new instance
+            models.storage.new(self)
 
     def save(self):
         # Update the public instance attribute updated_at with the current datetime
         self.updated_at = datetime.now()
+        #call the save method on storage.
+        models.storage.save()
+
+
 
     def to_dict(self):
         # Create a dictionary containing all keys/values of __dict__ of the instance
