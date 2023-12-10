@@ -23,14 +23,33 @@ class Test_FileStorage_init(unittest.TestCase):
         self.assertEqual(type(models.storage), FileStorage)
 
 class Test_FileStorage(unittest.TestCase):
-    """ testig FileStorage methods"""
-    def setup(self):
-        """creat temp file for saving data"""
-        self.test_file = "test_file.json"
-    def remover(self):
-        """ remove temp file"""
-        if os.path.exists(self.test_file):
-            os.remove(self.test_file)
+
+    def setUp(self):
+        try:
+            os.rename("file.json", "tmp")
+        except IOError:
+            pass
+
+    @classmethod
+    def tearDown(self):
+        try:
+            os.remove("file.json")
+        except IOError:
+            pass
+        try:
+            os.rename("tmp", "file.json")
+        except IOError:
+            pass
+        FileStorage._FileStorage__objects = {}
+
+    #""" testig FileStorage methods"""
+    #def setup(self):
+    #   """creat temp file for saving data"""
+    #    self.test_file = "test_file.json"
+    #def remover(self):
+     #   """ remove temp file"""
+      #  if os.path.exists(self.test_file):
+       #     os.remove(self.test_file)
 
     def test_all_storage(self):
         """ test all() method retur dict"""
